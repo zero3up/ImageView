@@ -51,6 +51,9 @@ namespace ImageView
             }
         }
 
+        /// <summary>
+        /// ファイルクローズ
+        /// </summary>
         public void Close()
         {
             if (data != null)
@@ -60,6 +63,9 @@ namespace ImageView
             }
         }
 
+        /// <summary>
+        /// 次のデータ取得
+        /// </summary>
         public void Next()
         {
             if (data.IsNext())
@@ -74,6 +80,9 @@ namespace ImageView
             }
         }
 
+        /// <summary>
+        /// 前のデータ取得
+        /// </summary>
         public void Prev()
         {
             if(data.IsPrev())
@@ -87,30 +96,56 @@ namespace ImageView
             }
         }
 
+        /// <summary>
+        /// 次のZIPファイルを取得
+        /// </summary>
         public void NextFile()
         {
             OpenNextFile();
         }
 
+        /// <summary>
+        /// 前のZIPファイルを取得
+        /// </summary>
         public void PrevFile()
         {
             OpenPrevFile();
         }
 
+        /// <summary>
+        /// 次のZIPファイルを取得
+        /// </summary>
         private void OpenNextFile()
         {
             IEnumerable<FileInfo>  nextlist = filist.Where(file => file.CreationTime > fi.CreationTime);
-            FileInfo nextfi = nextlist.OrderBy(file => file.CreationTime).First();
-            data.Close();
-            this.Open(nextfi.FullName);
+            if (nextlist.Count() > 0)
+            {
+                FileInfo nextfi = nextlist.OrderBy(file => file.CreationTime).First();
+                data.Close();
+                this.Open(nextfi.FullName);
+            }
+            else
+            {
+                // フォルダ内に次のファイルなし
+            }
         }
 
+        /// <summary>
+        /// 前のZIPファイルを取得
+        /// </summary>
         private void OpenPrevFile()
         {
             IEnumerable<FileInfo> nextlist = filist.Where(file => file.CreationTime < fi.CreationTime);
-            FileInfo nextfi = nextlist.OrderByDescending(file => file.CreationTime).First();
-            data.Close();
-            this.Open(nextfi.FullName);
+            if (nextlist.Count() > 0)
+            {
+                FileInfo nextfi = nextlist.OrderByDescending(file => file.CreationTime).First();
+                data.Close();
+                this.Open(nextfi.FullName);
+            }
+            else
+            {
+                // フォルダ内に前のファイルなし
+            }
         }
     }
 }

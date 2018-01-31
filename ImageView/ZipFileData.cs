@@ -202,18 +202,25 @@ namespace ImageView
             memstrem = new MemoryStream();
 
             // 元の画像を消す
-            Stream s = arclist.ElementAt(index).Open();
+            using (Stream s = arclist.ElementAt(index).Open())
+            {
 
-            s.CopyTo(memstrem);
-            memstrem.Seek(0, 0);
+                s.CopyTo(memstrem);
+                memstrem.Seek(0, 0);
 
-            data = new BitmapImage();
-            data.BeginInit();
-            data.StreamSource = memstrem;
-            data.EndInit();
+                data = new BitmapImage();
+                try
+                {
 
-            s.Close();
-            s.Dispose();
+                    data.BeginInit();
+                    data.StreamSource = memstrem;
+                    data.EndInit();
+                }
+                catch (Exception e)
+                {
+                    // 画像ファイル以外
+                }
+            }
         }
     }
 }

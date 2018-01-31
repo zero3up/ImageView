@@ -85,11 +85,16 @@ namespace ImageView
             FileInfo fi = new FileInfo(fileNames[0]);
             if (fi.Extension == ".zip")
             {
-                // ZIPファイルを開く
+                // ファイルを開く
                 imgope.Open(fi.FullName);
             }
         }
 
+        /// <summary>
+        /// 画像コントロールでマウスホイール操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void image_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if(e.Delta > 0)
@@ -107,6 +112,11 @@ namespace ImageView
             
         }
 
+        /// <summary>
+        /// マウス右クリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void image_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             switch (e.ClickCount)
@@ -118,9 +128,13 @@ namespace ImageView
                     bind.Action(KeyBind.KeyList.MouseRightDoubleClick);
                     break;
             }
-
         }
 
+        /// <summary>
+        /// マウス左クリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             switch (e.ClickCount)
